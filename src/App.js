@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
+import HomeView from './HomeView'
+import CategorySelectionView from './CategorySelectionView'
+import NewEntryView from './NewEntryView'
+import { useState } from 'react'
+import { BrowserRouter, Link, Route } from "react-router-dom"
 
-function App() {
+function App(props) {
+  const [categories, setCategories] = useState(['Food', 'Coding', 'Movies', 'Other'])
+  const [entries, setEntries] = useState([])
+
+  function addEntry(cat_id, entry) {
+    // update entries state
+    // { cat_id, entry }
+    setEntries([...entries, { cat_id, entry }])
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <BrowserRouter>
+        <nav>
+          <Link to="/">Home</Link> | 
+          <Link to="/category">New Entry</Link>
+        </nav>
+        <Route
+          exact
+          path="/"
+          render={props => <HomeView {...props} categories={categories} entries={entries} />}
+        />
+        <Route
+          exact
+          path="/category"
+          render={props => <CategorySelectionView {...props} categories={categories} />}
+        />
+        <Route
+          exact
+          path="/entry/new/:cat_id"
+          render={props => <NewEntryView {...props} addEntry={addEntry} categories={categories} />}
+        />
+      </BrowserRouter>
+    </>
+  )
 }
 
-export default App;
+export default App
