@@ -9,13 +9,13 @@ export default () => {
         <>
             <h1>Journal Entries</h1>
             {
-                categories.map((cat, index) => {
+                categories.map(cat => {
                     return (
-                        <section id={index}>
-                            <h2>{cat}</h2>
+                        <section id={cat.id}>
+                            <h2>{cat.name}</h2>
                             <ul>
                                 {
-                                    entries.filter(entry => entry.cat_id == index).map((entry, index) => <li key={index}>{entry.entry}</li>)
+                                    entries.filter(entry => entry.category_id == cat.id).map((entry, index) => <li key={index}>{entry.content}</li>)
                                 }
                             </ul>
                         </section>

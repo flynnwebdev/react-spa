@@ -9,9 +9,9 @@ export default () => {
             <h1>Category Selection View</h1>
             <ul>
             {
-                store.categories.map((category, index) => 
-                    <li key={index}>
-                        <Link to={`/entry/new/${index}`}>{category}</Link>
+                store.categories.map(category => 
+                    <li key={category.id}>
+                        <Link to={`/entry/new/${category.id}`}>{category.name}</Link>
                     </li>
                 )
             }

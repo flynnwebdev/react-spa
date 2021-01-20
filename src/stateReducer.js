@@ -3,14 +3,28 @@
 // Current state provided by React automatically
 // Returns new state
 export default (currentState, action) => {
-//    console.log(`Reducer invoked with action: ${JSON.stringify(action)}`)
-//    console.log(`Current State: ${JSON.stringify(currentState)}`)
+    //    console.log(`Reducer invoked with action: ${JSON.stringify(action)}`)
+    //    console.log(`Current State: ${JSON.stringify(currentState)}`)
     switch (action.type) {
         case 'addEntry':
-            const { cat_id, entry } = action
             return {
                 ...currentState,
-                entries: [...currentState.entries, { cat_id, entry }]
+                entries: [...currentState.entries, action.entry]
+            }
+        case 'setEntries':
+            return {
+                ...currentState,
+                entries: action.entries
+            }
+        case 'setCategories':
+            return {
+                ...currentState,
+                categories: action.categories
+            }
+        case 'setLoading':
+            return {
+                ...currentState,
+                loading: action.value
             }
 
         default:

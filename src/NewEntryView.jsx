@@ -6,14 +6,26 @@ export default (props) => {
     const cat_id = props.match.params.cat_id
     const [entry, setEntry] = useState('')
     const { store, dispatch } = useContext(StateContext)
+    const category = store.categories.find(c => c.id == cat_id)
+    console.log(store.categories)
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault()
-        // props.addEntry(cat_id, entry)
+        const res = await fetch('http://localhost:4000/entries', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: entry,
+                category_id: cat_id
+            })
+        })
+        const parsedEntry = await res.json()
+
         dispatch({
             type: 'addEntry',
-            cat_id,
-            entry
+            entry: parsedEntry
         })
 
         props.history.push("/")
@@ -22,7 +34,7 @@ export default (props) => {
     return (
         <>
             <Link to="/category"><button>&lt; Back to Categories</button></Link>
-            <h1>New {store.categories[cat_id]} Entry</h1>
+            <h1>New {category.name} Entry</h1>
             <form onSubmit={onSubmit}>
                 <div>
                     <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
